@@ -72,9 +72,9 @@ class GameModel{
     }
     makeStartingGrid(){
         let grid=[];
-        for(let i=0;i<rows;i++){
+        for(let i=0;i<cols;i++){
             grid[i]=[];
-            for(let j=0;j<cols;j++){
+            for(let j=0;j<rows;j++){
                 grid[i][j]=0
             }
         }
@@ -84,27 +84,26 @@ class GameModel{
         for(let i=0;i<this.grid.length;i++){
             for(let j=0;j<this.grid[i].length;j++){
                 let cell=this.grid[i][j];
-                this.ctx.fillStyle='black';
-                this.ctx.fillRect(j,i,1,1)
             }
+        }
+        if(this.fallingPiece!==null){
+            this.fallingPiece.renderPiece();
+            setTimeout(()=>{
+                this.fallingPiece=null
+                console.log('!listo')
+            },2000)
         }
     }
     moveDown(){
-        if(model.fallingPiece===null){
-            this.renderGameState()
+        if(this.fallingPiece===null){
+            console.log('toto')
         }
     }
 }
-const model=new GameModel(ctx);
-setInterval(()=>{
-    newGameState()
-},1000)
-function newGameState(){
-    if(model.fallingPiece===null){
-        let rand=Math.floor(Math.random()*shapes.length);
-        const piece= new Piece(shapes[rand],ctx);
-        model.fallingPiece=piece;
-        model.moveDown();
-    }
-    model.moveDown();
+const model= new GameModel(ctx);
+const piece=new Piece(shapes[0],ctx)
+if(model.fallingPiece===null){
+    model.fallingPiece=piece
+    model.moveDown()
 }
+model.renderGameState();
